@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Infinite Compliments</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 600px;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+    }
+
+    #compliment {
+      margin: 30px 0;
+      font-size: 1.4rem;
+      min-height: 80px;
+    }
+
+    button {
+      padding: 12px 25px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: white;
+      color: #764ba2;
+      font-weight: bold;
+      transition: 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>✨ Infinite Compliments ✨</h1>
+    <div id="compliment">Click the button to receive a completely unique compliment.</div>
+    <button onclick="generateCompliment()">Generate Compliment</button>
+  </div>
+
+  <script>
+    const traits = [
+      "strategic brilliance",
+      "quiet confidence",
+      "creative genius",
+      "unshakable resilience",
+      "natural leadership",
+      "intellectual sharpness",
+      "emotional intelligence",
+      "fearless ambition",
+      "authentic presence",
+      "radiant kindness"
+    ];
+
+    const metaphors = [
+      "a sunrise breaking through fog",
+      "a grandmaster planning ten moves ahead",
+      "a lighthouse in a storm",
+      "a hidden masterpiece",
+      "a comet blazing through the night sky",
+      "a rare constellation",
+      "a perfectly tuned symphony",
+      "a mountain standing firm against the wind",
+      "a spark that ignites innovation",
+      "a timeless work of art"
+    ];
+
+    const endings = [
+      "and people feel it instantly.",
+      "and it makes you unforgettable.",
+      "and it sets you apart effortlessly.",
+      "and it changes the energy in every room.",
+      "and it inspires others without you even trying.",
+      "and it makes the world noticeably better.",
+      "and it leaves a lasting impression.",
+      "and it elevates everyone around you."
+    ];
+
+    function randomItem(array) {
+      return array[Math.floor(Math.random() * array.length)];
+    }
+
+    function generateCompliment() {
+      const compliment =
+        "You have the " +
+        randomItem(traits) +
+        " of " +
+        randomItem(metaphors) +
+        ", " +
+        randomItem(endings);
+
+      document.getElementById("compliment").innerText = compliment;
+    }
+  </script>
+</body>
+</html>
