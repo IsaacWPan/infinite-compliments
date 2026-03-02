@@ -1,1103 +1,133 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Have A Nice Day</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      text-align: center;
-    }
+<meta charset="UTF-8">
+<title>Have A Nice Day</title>
 
-    .container {
-      max-width: 600px;
-    }
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  text-align: center;
+}
 
-    h1 {
-      font-size: 2.5rem;
-    }
+.container {
+  max-width: 600px;
+}
 
-    #compliment {
-      margin: 30px 0;
-      font-size: 1.4rem;
-      min-height: 80px;
-    }
+h1 {
+  font-size: 2.5rem;
+}
 
-    button {
-      padding: 12px 25px;
-      font-size: 1rem;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      background: white;
-      color: #764ba2;
-      font-weight: bold;
-      transition: 0.2s ease;
-    }
+#compliment {
+  margin: 30px 0;
+  font-size: 1.4rem;
+  min-height: 80px;
+}
 
-    button:hover {
-      transform: scale(1.05);
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>✨ Have A Nice Day ✨</h1>
-    <div id="compliment">Click the button to receive a compliment.</div>
-    <button onclick="generateCompliment()">Generate Compliment</button>
-  </div>
-  <div id="easterEgg" onclick="toggleMode()" style="
-  position: fixed;
-  bottom: 15px;
-  right: 15px;
-  font-size: 18px;
+button {
+  padding: 12px 25px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  opacity: 0.3;
-  user-select: none;
+  background: white;
+  color: #764ba2;
+  font-weight: bold;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>✨ Have A Nice Day ✨</h1>
+  <div id="compliment">Click the button to receive a compliment.</div>
+  <button onclick="generateCompliment()">Generate Compliment</button>
+</div>
+
+<div id="easterEgg" onclick="toggleMode()" style="
+position: fixed;
+bottom: 15px;
+right: 15px;
+font-size: 18px;
+cursor: pointer;
+opacity: 0.3;
+user-select: none;
 ">
-  ★
+★
 </div>
 
 <div id="modeDisplay" style="
-  position: fixed;
-  bottom: 45px;
-  right: 15px;
-  font-size: 12px;
-  font-family: monospace;
-  opacity: 0;
-  transition: opacity 0.4s ease;
+position: fixed;
+bottom: 45px;
+right: 15px;
+font-size: 12px;
+font-family: monospace;
+opacity: 0;
+transition: opacity 0.4s ease;
 ">
-  Mode: Unknown
+Mode: Unknown
 </div>
 
-  <script>
-    let currentModeName = "";
-let modeVisible = false;
-    
-    const traits = [
-      "strategic brilliance",
-      "quiet confidence",
-      "creative genius",
-      "unshakable resilience",
-      "natural leadership",
-      "intellectual sharpness",
-      "emotional intelligence",
-      "fearless ambition",
-      "authentic presence",
-      "radiant kindness",
-      "subtle charisma",
-"magnetic authenticity",
-"restless curiosity",
-"disciplined focus",
-"bold imagination",
-"effortless elegance",
-"measured wisdom",
-"quiet determination",
-"fearless creativity",
-"playful intelligence",
-"deep empathy",
-"steadfast loyalty",
-"refined intuition",
-"sharp wit",
-"radiant optimism",
-"grounded confidence",
-"limitless drive",
-"natural diplomacy",
-"gentle strength",
-"calm authority",
-"innovative thinking",
-"steady resilience",
-"brilliant adaptability",
-"genuine warmth",
-"thoughtful perception",
-"dynamic energy",
-"rare sincerity",
-"intentional presence",
-"expansive vision",
-"careful insight",
-"unfiltered originality",
-"tactical patience",
-"vivid imagination",
-"resolute spirit",
-"bright enthusiasm",
-"balanced perspective",
-"growing wisdom",
-"electric ambition",
-"anchored stability",
-"harmonious mindset",
-"independent thinking",
-"refined taste",
-"enduring optimism",
-"bold integrity",
-"compassionate leadership",
-"creative precision",
-"authentic vulnerability",
-"natural boldness",
-"articulate clarity",
-"strategic patience",
-"observant awareness",
-"intellectual depth",
-"spontaneous brilliance",
-"visionary courage",
-"disciplined ambition",
-"unshaken poise",
-"adventurous heart",
-"measured strength",
-"empathetic insight",
-"luminous confidence",
-"graceful resilience",
-"quiet brilliance",
-"bold sincerity",
-"thoughtful courage",
-"magnetic focus",
-"patient ambition",
-"rare insightfulness",
-"energetic curiosity",
-"compelling presence",
-"fearless honesty",
-"creative daring",
-"unwavering resolve",
-"balanced ambition",
-"vibrant authenticity",
-"steady optimism",
-"natural influence",
-"genuine enthusiasm",
-"uncommon depth",
-"radiant determination",
-"poised intelligence",
-"bold compassion",
-"reflective wisdom",
-"limitless imagination",
-"calculated courage",
-"grounded ambition",
-"expressive clarity",
-"steady composure",
-"fearless perspective",
-"authentic drive",
-"vivid creativity",
-"refined strength",
-"gentle boldness",
-"persistent hope",
-"intuitive awareness",
-"sharp perception",
-"measured brilliance",
-"confident humility",
-"quiet fire"
-    ];
-
-    const metaphors = [
-      "a sunrise breaking through fog",
-      "a grandmaster planning ten moves ahead",
-      "a lighthouse in a storm",
-      "a hidden masterpiece",
-      "a comet blazing through the night sky",
-      "a rare constellation",
-      "a perfectly tuned symphony",
-      "a mountain standing firm against the wind",
-      "a spark that ignites innovation",
-      "a timeless work of art",
-      "a compass that never falters",
-"a wildfire that warms without destroying",
-"a cathedral built from patience",
-"a star chart guiding lost travelers",
-"a sculptor shaping marble into life",
-"a river carving canyons over time",
-"a sunrise that feels earned",
-"a secret passage to something extraordinary",
-"a chessboard mid-checkmate",
-"a lighthouse on impossible cliffs",
-"a bridge between worlds",
-"a melody that lingers for years",
-"a constellation no one else can see",
-"a flame that never flickers",
-"a library filled with rare truths",
-"a horizon expanding endlessly",
-"a mountain glowing at dawn",
-"a quiet revolution",
-"a spark in dry timber",
-"a rare vinyl in perfect condition",
-"a blueprint for brilliance",
-"a timeless epic",
-"a rare artifact rediscovered",
-"a pulse beneath the silence",
-"a comet rewriting the sky",
-"a lantern in thick fog",
-"a cathedral of light",
-"a key cut for impossible locks",
-"a symphony rising from silence",
-"a storm that clears the air",
-"a hidden trail through chaos",
-"a masterstroke on canvas",
-"a seed cracking through stone",
-"a lighthouse built of glass",
-"a whisper that changes history",
-"a fortress disguised as a garden",
-"a sunrise over untouched snow",
-"a mirror reflecting the best in others",
-"a compass in uncharted waters",
-"a spark inside cold steel",
-"a cathedral choir at full volume",
-"a mountain refusing erosion",
-"a constellation forming in real time",
-"a bridge over restless waters",
-"a lantern swinging in darkness",
-"a rare eclipse",
-"a manuscript written in gold ink",
-"a star refusing to dim",
-"a blueprint for the future",
-"a fire lit in winter",
-"a garden growing through cracks",
-"a poem carved into stone",
-"a lighthouse during a black tide",
-"a comet trailing gold",
-"a map hidden in plain sight",
-"a sunrise after endless rain",
-"a pulse steady in chaos",
-"a crown forged quietly",
-"a lantern in abandoned halls",
-"a beacon across vast oceans",
-"a storm that reshapes landscapes",
-"a horizon pulling everything forward",
-"a hidden masterpiece in an attic",
-"a river refusing to dry",
-"a spark in ancient tinder",
-"a cathedral window at dusk",
-"a rare alignment of planets",
-"a mountain echoing strength",
-"a compass set to true north",
-"a wildfire clearing old forests",
-"a bridge between doubt and certainty",
-"a whisper louder than thunder",
-"a sword tempered by time",
-"a quiet flame in endless night",
-"a seed destined for forests",
-"a symphony before its crescendo",
-"a star born from collapse",
-"a pulse in ancient stone",
-"a sunrise over restless seas",
-"a crown resting lightly",
-"a lighthouse carved from granite",
-"a key to locked galaxies",
-"a mural painted across the sky",
-"a current too strong to ignore",
-"a spark beneath still water",
-"a garden growing wild and free",
-"a horizon bending toward you",
-"a storm turned into strength",
-"a blueprint etched in starlight",
-"a cathedral built by hope",
-"a river that refuses to freeze",
-"a star guiding sailors home",
-"a flame guarded by wind",
-"a compass in cosmic dust",
-"a whisper inside roaring silence",
-"a mountain touching clouds",
-"a light breaking through iron"
-    ];
-
-    const endings = [
-      "and people feel it instantly.",
-      "and it makes you unforgettable.",
-      "and it sets you apart effortlessly.",
-      "and it changes the energy in every room.",
-      "and it inspires others without you even trying.",
-      "and it makes the world noticeably better.",
-      "and it leaves a lasting impression.",
-      "and it elevates everyone around you.",
-      "a compass that never falters",
-      "and it quietly transforms everything around you.",
-"and it leaves people better than it found them.",
-"and it turns ordinary moments into meaning.",
-"and it shifts the entire atmosphere.",
-"and it feels rare in the best way.",
-"and it builds momentum wherever you go.",
-"and it inspires without demanding attention.",
-"and it makes challenges seem smaller.",
-"and it carries more power than you realize.",
-"and it draws opportunity toward you.",
-"and it creates gravity in every room.",
-"and it feels both powerful and effortless.",
-"and it reshapes expectations.",
-"and it commands respect naturally.",
-"and it turns doubt into clarity.",
-"and it becomes impossible to ignore.",
-"and it sets a new standard quietly.",
-"and it leaves a lasting imprint.",
-"and it makes others believe bigger.",
-"and it moves things forward.",
-"and it radiates further than you see.",
-"and it carries quiet authority.",
-"and it bends the arc toward better outcomes.",
-"and it creates momentum from nothing.",
-"and it feels almost gravitational.",
-"and it transforms pressure into fuel.",
-"and it sparks courage in others.",
-"and it builds something lasting.",
-"and it elevates conversations instantly.",
-"and it softens even the hardest edges.",
-"and it makes possibility feel real.",
-"and it creates harmony from tension.",
-"and it steadies uncertain ground.",
-"and it pushes limits outward.",
-"and it builds trust without effort.",
-"and it feels inevitable.",
-"and it expands whatever space you're in.",
-"and it carries weight in the best way.",
-"and it draws admiration naturally.",
-"and it quietly changes the trajectory.",
-"and it shifts the narrative.",
-"and it amplifies everything good.",
-"and it turns obstacles into stepping stones.",
-"and it resonates long after you leave.",
-"and it makes progress feel natural.",
-"and it reshapes the environment.",
-"and it sets ideas into motion.",
-"and it commands attention softly.",
-"and it gives strength to others.",
-"and it redefines what's possible.",
-"and it moves with quiet certainty.",
-"and it builds impact over time.",
-"and it feels like momentum itself.",
-"and it stabilizes even chaos.",
-"and it opens doors silently.",
-"and it creates new standards.",
-"and it invites growth effortlessly.",
-"and it lingers in the best way.",
-"and it strengthens everything it touches.",
-"and it makes bravery contagious.",
-"and it reframes every challenge.",
-"and it carries the room forward.",
-"and it makes complexity feel simple.",
-"and it steadies restless energy.",
-"and it makes courage look easy.",
-"and it transforms hesitation into action.",
-"and it expands every opportunity.",
-"and it feels timeless.",
-"and it builds confidence in others.",
-"and it creates clarity instantly.",
-"and it makes the path brighter.",
-"and it holds steady under pressure.",
-"and it shapes outcomes quietly.",
-"and it leaves brilliance behind.",
-"and it amplifies quiet strength.",
-"and it energizes everything nearby.",
-"and it moves like purpose.",
-"and it feels grounded and powerful.",
-"and it sets things into alignment.",
-"and it unlocks hidden potential.",
-"and it invites greatness.",
-"and it builds bridges effortlessly.",
-"and it shifts things upward.",
-"and it turns friction into growth.",
-"and it makes impact look natural.",
-"and it inspires forward motion.",
-"and it builds something meaningful.",
-"and it quietly leads the way.",
-"and it feels destined.",
-"and it expands beyond limits.",
-"and it transforms effort into art.",
-"and it feels bigger than the moment.",
-"and it builds resilience in others.",
-"and it invites boldness.",
-"and it leaves strength in its wake.",
-"and it grows stronger with time.",
-"and it becomes unforgettable.",
-"and it turns potential into reality.",
-"and it moves with unstoppable force."
-
-    ];
-const poeticOpenings = [
-  "In a world that rushes,",
-  "Beneath the noise of everything,",
-  "Where others hesitate,",
-  "In quiet moments,",
-  "Against the current,",
-  "At the edge of uncertainty,",
-"In the space between doubt and action,",
-"When the world grows loud,",
-"Where pressure builds,",
-"In rooms that test people,",
-"When timing matters most,",
-"In moments others overlook,",
-"Along the fault lines of change,",
-"Where effort meets resistance,",
-"In the quiet before decisions,",
-"Inside the turning of seasons,",
-"Where ambition hums softly,",
-"At the center of motion,",
-"When paths split in two,",
-"Under restless skies,",
-"In the architecture of chaos,",
-"Where courage is required,",
-"In unseen hours,",
-"When outcomes feel fragile,",
-"In the shadow of expectation,",
-"Where thought becomes action,",
-"In the weight of responsibility,",
-"When energy shifts,",
-"At the brink of progress,",
-"In landscapes still forming,",
-"When others step back,",
-"Where clarity is rare,",
-"In uncharted territory,",
-"When precision is demanded,",
-"Under bright scrutiny,",
-"At the core of momentum,",
-"In silent revolutions,",
-"When patterns break,",
-"Where doubt tries to settle,",
-"In the stillness of focus,",
-"At the intersection of effort and belief,",
-"When uncertainty lingers,",
-"Where strength hides quietly,",
-"In the rhythm of growth,",
-"At the frontier of possibility,",
-"When history turns pages,",
-"In small decisive seconds,",
-"Where restraint shows power,",
-"When change accelerates,",
-"In disciplined mornings,",
-"Where resilience is tested,",
-"In places that shape character,",
-"When outcomes hang lightly,",
-"In rare aligned moments,",
-"Where quiet minds sharpen,",
-"In patient pursuit,",
-"When the air feels heavy,",
-"In corridors of pressure,",
-"Where others grow restless,",
-"When vision narrows,",
-"In the pulse of ambition,",
-"Where intention crystallizes,",
-"In disciplined silence,",
-"When focus deepens,",
-"In the arc of becoming,",
-"Where fear dissolves slowly,",
-"In turning tides,",
-"When boldness whispers,",
-"In the gravity of decisions,",
-"Where tension refines,",
-"In steady advance,",
-"When doubt loses ground,",
-"In precise movement,",
-"Where minds awaken,",
-"In disciplined storms,",
-"When outcomes tremble,",
-"In the margins of greatness,",
-"Where structure meets instinct,",
-"In relentless pursuit,",
-"When effort compounds,",
-"In measured breaths,",
-"Where chaos organizes,",
-"In unseen preparation,",
-"When resolve steadies,",
-"In fields of resistance,",
-"Where patience outlasts noise,",
-"In subtle turning points,",
-"When growth stretches thin,",
-"In brave restraint,",
-"Where standards rise,",
-"In deliberate steps,",
-"When gravity shifts,",
-"In the geometry of change,",
-"Where potential sharpens,",
-"In silent confidence,",
-"When forward is uncertain,",
-"In balanced intensity,",
-"Where momentum gathers,",
-"In unwavering posture,",
-"When strength looks quiet,",
-"In moments that define direction,",
-"Where clarity wins slowly,",
-"In disciplined fire,",
-"When limits expand,"
-];
-
-const poeticBodies = [
-  "you rise like something ancient and certain",
-  "your presence feels like a forgotten truth rediscovered",
-  "you move with the patience of mountains",
-  "your thoughts echo deeper than they appear",
-  "you carry a light that doesn’t ask permission",
-  "you stand anchored yet evolving",
-"your presence steadies the unstable",
-"you move with deliberate force",
-"your mind cuts through fog",
-"you rise without spectacle",
-"your restraint carries power",
-"you bend pressure into progress",
-"your clarity sharpens the air",
-"you hold ground without noise",
-"your direction feels inevitable",
-"you expand the room quietly",
-"your focus feels architectural",
-"you build futures silently",
-"your thought patterns carve paths",
-"you radiate disciplined energy",
-"your stillness speaks volumes",
-"you align action with intention",
-"your resolve feels immovable",
-"you absorb chaos and return structure",
-"your vision stretches horizons",
-"you carry tomorrow in your posture",
-"your rhythm stabilizes storms",
-"you step forward with certainty",
-"your silence recalibrates rooms",
-"you refine everything you touch",
-"your ambition hums steadily",
-"you transform friction into lift",
-"your awareness widens space",
-"you hold tension without breaking",
-"your persistence shapes terrain",
-"you make complexity feel ordered",
-"your patience outlasts resistance",
-"you move with unspoken command",
-"your confidence feels grounded",
-"you navigate like seasoned wind",
-"your composure bends time",
-"you advance without announcement",
-"your steadiness alters momentum",
-"you gather strength invisibly",
-"your intention carries weight",
-"you press forward deliberately",
-"your discipline feels magnetic",
-"you absorb doubt and output clarity",
-"your gaze stays level",
-"you reshape expectation quietly",
-"your focus cuts clean lines",
-"you elevate standards naturally",
-"your motion feels aligned",
-"you anchor instability",
-"your calm disarms pressure",
-"you stretch what seems possible",
-"your effort compounds invisibly",
-"you steady the restless",
-"your silence becomes leadership",
-"you outlast noise",
-"your progress feels structural",
-"you step where others hesitate",
-"your mind anticipates outcomes",
-"you convert tension into direction",
-"your resolve tightens foundations",
-"you recalibrate environments",
-"your growth feels engineered",
-"you carry momentum in reserve",
-"your posture signals certainty",
-"you rise methodically",
-"your clarity builds bridges",
-"you organize chaos intuitively",
-"your strength unfolds slowly",
-"you shape the atmosphere",
-"your awareness cuts sharply",
-"you turn hesitation into stride",
-"your ambition burns steadily",
-"you persist without spectacle",
-"your gravity pulls progress",
-"you steady outcomes gently",
-"your focus frames reality",
-"you move with layered purpose",
-"your composure signals power",
-"you refine systems naturally",
-"your steadiness inspires motion",
-"you stand where pressure gathers",
-"your thought leads action",
-"you build forward quietly",
-"your presence compresses doubt",
-"you advance with quiet fire",
-"your rhythm disrupts stagnation",
-"you create space for growth",
-"your direction feels anchored",
-"you navigate turbulence smoothly",
-"your conviction deepens silence",
-"you turn stillness into strength",
-"your steps echo intention",
-"you hold vision without wavering",
-"your effort moves tectonic plates",
-"you sharpen collective focus",
-"your momentum compounds steadily",
-"you build inevitability",
-"your restraint commands respect",
-"you operate beyond noise"
-];
-
-const poeticEndings = [
-  "and it lingers long after you leave.",
-  "and the world feels steadier because of it.",
-  "and something shifts quietly.",
-  "and even silence listens.",
-  "and it matters more than you know.",
-  "and even the air feels steadier.",
-"and gravity seems to listen.",
-"and momentum gathers quietly.",
-"and silence holds your outline.",
-"and direction becomes clear.",
-"and the horizon shifts subtly.",
-"and resistance weakens slowly.",
-"and something foundational moves.",
-"and doubt thins out.",
-"and the path steadies itself.",
-"and time aligns briefly.",
-"and outcomes lean forward.",
-"and possibility expands outward.",
-"and the room recalibrates.",
-"and noise fades naturally.",
-"and energy bends slightly.",
-"and intention sharpens.",
-"and space opens around you.",
-"and tension softens.",
-"and progress feels natural.",
-"and direction locks in.",
-"and alignment strengthens.",
-"and motion feels earned.",
-"and balance restores itself.",
-"and clarity lingers.",
-"and something irreversible begins.",
-"and movement compounds.",
-"and focus deepens.",
-"and growth stabilizes.",
-"and purpose feels visible.",
-"and resistance loses edge.",
-"and stillness turns powerful.",
-"and outcomes tilt upward.",
-"and structure emerges.",
-"and vision clarifies.",
-"and direction firms.",
-"and gravity supports you.",
-"and intention crystallizes.",
-"and calm spreads outward.",
-"and strength expands quietly.",
-"and friction becomes lift.",
-"and certainty roots deeper.",
-"and noise dissolves slowly.",
-"and patience prevails.",
-"and something enduring forms.",
-"and motion intensifies gently.",
-"and momentum sustains.",
-"and clarity outlasts doubt.",
-"and growth feels permanent.",
-"and stillness commands respect.",
-"and vision stretches further.",
-"and progress stabilizes.",
-"and strength settles in.",
-"and power feels grounded.",
-"and steadiness spreads.",
-"and direction solidifies.",
-"and outcomes align quietly.",
-"and gravity cooperates.",
-"and movement feels destined.",
-"and the next step reveals itself.",
-"and the ground feels firm.",
-"and uncertainty narrows.",
-"and light widens slightly.",
-"and belief deepens.",
-"and tension reorganizes.",
-"and space listens.",
-"and forward becomes natural.",
-"and intention expands.",
-"and the arc bends upward.",
-"and momentum refuses pause.",
-"and clarity holds.",
-"and strength endures.",
-"and motion builds naturally.",
-"and certainty grows roots.",
-"and the path clarifies.",
-"and silence affirms.",
-"and the room stabilizes.",
-"and pressure transforms.",
-"and gravity assists.",
-"and outcomes breathe easier.",
-"and growth accelerates gently.",
-"and resistance fades.",
-"and direction strengthens.",
-"and structure holds.",
-"and possibility breathes.",
-"and motion compounds steadily.",
-"and resolve anchors deeply.",
-"and progress becomes visible.",
-"and steadiness prevails.",
-"and energy organizes itself.",
-"and momentum feels earned.",
-"and the future nods subtly.",
-"and quiet power settles in.",
-"and belief expands slowly.",
-"and the arc holds firm.",
-"and outcomes steady themselves.",
-"and vision roots deeper.",
-"and progress feels inevitable."
-];
-    const punchyCompliments = [
-  "You are built different.",
-  "You don’t miss.",
-  "Elite energy.",
-  "Unmatched presence.",
-  "That’s main-character aura.",
-  "You execute.",
-  "Sharp. Precise. Effective.",
-  "Certified rare.",
-  "High-level mind.",
-  "You raise the standard.",
-      "Top tier.",
-"Built solid.",
-"That’s elite focus.",
-"You move smart.",
-"Unshakable.",
-"High-caliber.",
-"Locked in.",
-"Precision mindset.",
-"Rare build.",
-"Pure execution.",
-"Strong presence.",
-"Big standard energy.",
-"You calculate.",
-"Peak discipline.",
-"Solid operator.",
-"Clean moves.",
-"Sharp instincts.",
-"Low noise. High impact.",
-"Momentum builder.",
-"Strategic thinker.",
-"Always advancing.",
-"Clear intent.",
-"Dialed in.",
-"Level above.",
-"Forward pressure.",
-"Steady hand.",
-"Focused edge.",
-"Disciplined force.",
-"Calculated risk.",
-"Zero wasted motion.",
-"Solid core.",
-"Purpose driven.",
-"Pressure proof.",
-"Built to last.",
-"Silent strength.",
-"Composed operator.",
-"Serious growth.",
-"Elite patience.",
-"Prime mindset.",
-"Strong frame.",
-"Forward thinker.",
-"Grounded power.",
-"High awareness.",
-"Advanced instincts.",
-"Reliable force.",
-"Next level.",
-"Consistent climb.",
-"Stable energy.",
-"Intentional moves.",
-"True north energy.",
-"Sharp direction.",
-"Rare consistency.",
-"Focused stride.",
-"Strategic build.",
-"Solid engine.",
-"Clear path.",
-"Unreal composure.",
-"Strong fundamentals.",
-"Forward motion.",
-"Quiet dominance.",
-"True standard.",
-"High-value energy.",
-"Aligned action.",
-"Smart pressure.",
-"Durable mindset.",
-"Peak control.",
-"Elite composure.",
-"Forward leaning.",
-"Built intentional.",
-"Calibrated.",
-"Strong execution.",
-"High integrity.",
-"Disciplined climb.",
-"Rare discipline.",
-"Next tier thinking.",
-"Locked focus.",
-"Growth mode.",
-"Solid impact.",
-"Clean alignment.",
-"Efficient operator.",
-"Stable climb.",
-"High threshold.",
-"Clear ambition.",
-"Controlled force.",
-"Forward presence.",
-"Intentional climb.",
-"Structured power.",
-"Calm edge.",
-"Advanced clarity.",
-"Built upward.",
-"Strategic posture.",
-"Peak awareness.",
-"Stable drive.",
-"True resilience.",
-"Focused architecture.",
-"Reliable strength.",
-"Elite build.",
-"Serious momentum."
-];
-    const brutalistCompliments = [
-  "You endure.",
-  "You adapt.",
-  "You persist.",
-  "You calculate.",
-  "You build.",
-  "You improve.",
-  "You refine.",
-  "You advance.",
-  "You overcome.",
-  "You remain.",
-      "You continue.",
-"You grow.",
-"You endure forward.",
-"You hold steady.",
-"You refine daily.",
-"You strengthen.",
-"You expand.",
-"You sharpen.",
-"You adjust.",
-"You rise.",
-"You remain calm.",
-"You stabilize.",
-"You commit.",
-"You align.",
-"You execute quietly.",
-"You adapt well.",
-"You endure pressure.",
-"You persist longer.",
-"You stand firm.",
-"You focus.",
-"You hold course.",
-"You advance steadily.",
-"You maintain direction.",
-"You operate cleanly.",
-"You improve consistently.",
-"You refine systems.",
-"You move deliberately.",
-"You sustain effort.",
-"You withstand noise.",
-"You carry on.",
-"You build patiently.",
-"You reinforce foundations.",
-"You stabilize outcomes.",
-"You sharpen focus.",
-"You press onward.",
-"You stay grounded.",
-"You hold vision.",
-"You strengthen structure.",
-"You rise slowly.",
-"You operate clearly.",
-"You endure fully.",
-"You sustain momentum.",
-"You stand centered.",
-"You calibrate.",
-"You correct course.",
-"You persist calmly.",
-"You remain steady.",
-"You continue upward.",
-"You maintain clarity.",
-"You build forward.",
-"You evolve steadily.",
-"You rise intentionally.",
-"You adjust precisely.",
-"You hold balance.",
-"You stay composed.",
-"You refine focus.",
-"You grow stronger.",
-"You operate intentionally.",
-"You maintain posture.",
-"You sustain progress.",
-"You stabilize motion.",
-"You build resilience.",
-"You endure quietly.",
-"You strengthen foundations.",
-"You rise consistently.",
-"You hold form.",
-"You refine edges.",
-"You continue steadily.",
-"You stabilize energy.",
-"You move forward.",
-"You endure wisely.",
-"You align direction.",
-"You build deliberately.",
-"You sharpen resolve.",
-"You rise focused.",
-"You persist intentionally.",
-"You maintain momentum.",
-"You adjust calmly.",
-"You stabilize growth.",
-"You strengthen daily.",
-"You endure cleanly.",
-"You build structure.",
-"You grow upward.",
-"You maintain integrity.",
-"You stand resilient.",
-"You hold confidence.",
-"You refine strength.",
-"You move centered.",
-"You sustain power.",
-"You rise grounded.",
-"You operate steadily.",
-"You hold direction.",
-"You advance calmly.",
-"You strengthen quietly.",
-"You build patiently.",
-"You endure confidently.",
-"You refine consistently.",
-"You grow steadily.",
-"out of 2,464,755 different complements, you got this one. You now isaacwpan $20. Have a nice day."
-];
-    const aspirationalCompliments = [
-      "Have a nice day.",
-  "Have a powerful day.",
-  "Today bends in your favor.",
-  "Something good is aligning for you.",
-  "Step forward boldly.",
-  "You are exactly where growth begins.",
-  "Trust your pace.",
-  "Move with intention.",
-  "You are building something meaningful.",
-  "Progress is happening.",
-  "Keep going — it’s working.",
-      "Today favors your effort.",
-"Keep moving forward.",
-"Your direction is valid.",
-"You are building momentum.",
-"Trust your preparation.",
-"Something good is forming.",
-"Lean into growth.",
-"You are capable of more.",
-"Step confidently today.",
-"Progress is unfolding.",
-"Stay steady.",
-"You are aligning.",
-"Momentum is building.",
-"Keep sharpening.",
-"Trust the climb.",
-"You are evolving.",
-"Forward is correct.",
-"Your work matters.",
-"Stay intentional.",
-"Continue upward.",
-"Growth suits you.",
-"Advance with calm.",
-"Today supports clarity.",
-"Stay disciplined.",
-"Your pace is enough.",
-"You are improving.",
-"Keep refining.",
-"Trust your focus.",
-"Stand firm today.",
-"Your direction strengthens.",
-"Push gently forward.",
-"You are advancing.",
-"Stay aligned.",
-"Build patiently.",
-"Momentum continues.",
-"Step with certainty.",
-"Trust your edge.",
-"Keep stabilizing.",
-"You are compounding effort.",
-"Advance deliberately.",
-"Clarity is near.",
-"Stay steady today.",
-"You are shaping outcomes.",
-"Build forward calmly.",
-"Your resolve grows.",
-"Continue pressing forward.",
-"Trust your growth.",
-"You are prepared.",
-"Stay composed.",
-"Today bends slightly toward you.",
-"You are progressing.",
-"Push forward wisely.",
-"Momentum favors persistence.",
-"You are steady.",
-"Stay sharp today.",
-"Your clarity improves.",
-"Continue building.",
-"Trust your structure.",
-"You are strengthening.",
-"Stay grounded.",
-"Keep rising.",
-"You are resilient.",
-"Move with purpose.",
-"Trust the process.",
-"You are capable.",
-"Stay focused.",
-"Forward momentum builds.",
-"You are growing stronger.",
-"Keep pressing.",
-"Trust your discipline.",
-"You are stabilizing.",
-"Stay aligned today.",
-"Your path holds.",
-"Continue shaping tomorrow.",
-"You are advancing steadily.",
-"Step with intention.",
-"Stay calm under pressure.",
-"You are building resilience.",
-"Trust your frame.",
-"Keep refining.",
-"Today supports strength.",
-"You are rising.",
-"Stay persistent.",
-"Forward is open.",
-"You are creating progress.",
-"Trust your pace today.",
-"Continue expanding.",
-"You are capable of impact.",
-"Stay deliberate.",
-"Your foundation is strong.",
-"Keep building momentum.",
-"You are shaping growth.",
-"Trust your steadiness.",
-"Stay advancing.",
-"Your direction matters.",
-"Continue confidently.",
-"You are aligned for progress."
-];
-
+<script>
 
 // =====================
-// MEMORY + MODE TRACKING
+// DATA
+// =====================
+
+const traits = ["quiet confidence","creative genius","natural leadership"];
+const metaphors = ["a lighthouse in a storm","a rare constellation","a perfectly tuned symphony"];
+const endings = ["and people feel it instantly.","and it changes the energy in every room.","and it makes the world better."];
+
+const poeticOpenings = ["In quiet moments,","Where others hesitate,","Against the current,"];
+const poeticBodies = ["you rise steadily","your presence feels grounded","you move with calm strength"];
+const poeticEndings = ["and it lingers long after.","and something shifts quietly.","and even silence listens."];
+
+const punchyCompliments = ["You are built different.","Elite energy.","Top tier."];
+const brutalistCompliments = ["You endure.","You adapt.","You persist."];
+const aspirationalCompliments = ["Have a powerful day.","Keep going — it’s working.","Move with intention."];
+
+// =====================
+// MEMORY
 // =====================
 
 let usageMap = new Map();
 let currentModeName = "";
 let modeVisible = false;
 
-
 // =====================
-// WEIGHTED MODE SYSTEM
+// WEIGHTED MODE
 // =====================
 
 function getWeightedMode() {
   const r = Math.random();
-
-  if (r < 0.40) return 0;           // 40% Classic
-  if (r < 0.80) return 1;           // 40% Poetic
-  if (r < 0.867) return 2;          // 6.7% Punchy
-  if (r < 0.934) return 3;          // 6.7% Minimal
-  return 4;                         // 6.7% Aspirational
+  if (r < 0.40) return 0;
+  if (r < 0.80) return 1;
+  if (r < 0.867) return 2;
+  if (r < 0.934) return 3;
+  return 4;
 }
 
-
 // =====================
-// SMART RANDOM (ANTI-REPEAT)
+// SMART RANDOM
 // =====================
 
 function smartRandomItem(array) {
-
   const weights = array.map(item => {
     const used = usageMap.get(item) || 0;
-    return 1 / (1 + used); // reduces chance if reused
+    return 1 / (1 + used);
   });
 
   const totalWeight = weights.reduce((a, b) => a + b, 0);
@@ -1113,9 +143,8 @@ function smartRandomItem(array) {
   }
 }
 
-
 // =====================
-// MAIN GENERATOR
+// GENERATOR
 // =====================
 
 function generateCompliment() {
@@ -1161,22 +190,17 @@ function generateCompliment() {
   document.getElementById("modeDisplay").innerText = "Mode: " + currentModeName;
 }
 
-
 // =====================
-// EASTER EGG TOGGLE
+// EASTER EGG
 // =====================
 
 function toggleMode() {
   modeVisible = !modeVisible;
   const display = document.getElementById("modeDisplay");
-
-  if (modeVisible) {
-    display.style.opacity = "0.6";
-  } else {
-    display.style.opacity = "0";
-  }
+  display.style.opacity = modeVisible ? "0.6" : "0";
 }
 
 </script>
+
 </body>
 </html>
