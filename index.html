@@ -1064,54 +1064,110 @@ const poeticEndings = [
 "You are aligned for progress."
 ];
 
-  
-    function randomItem(array) {
-      return array[Math.floor(Math.random() * array.length)];
+ <script>
+
+// =====================
+// MEMORY + MODE TRACKING
+// =====================
+
+let usageMap = new Map();
+let currentModeName = "";
+let modeVisible = false;
+
+
+// =====================
+// WEIGHTED MODE SYSTEM
+// =====================
+
+function getWeightedMode() {
+  const r = Math.random();
+
+  if (r < 0.40) return 0;           // 40% Classic
+  if (r < 0.80) return 1;           // 40% Poetic
+  if (r < 0.867) return 2;          // 6.7% Punchy
+  if (r < 0.934) return 3;          // 6.7% Minimal
+  return 4;                         // 6.7% Aspirational
+}
+
+
+// =====================
+// SMART RANDOM (ANTI-REPEAT)
+// =====================
+
+function smartRandomItem(array) {
+
+  const weights = array.map(item => {
+    const used = usageMap.get(item) || 0;
+    return 1 / (1 + used); // reduces chance if reused
+  });
+
+  const totalWeight = weights.reduce((a, b) => a + b, 0);
+  let random = Math.random() * totalWeight;
+
+  for (let i = 0; i < array.length; i++) {
+    if (random < weights[i]) {
+      const chosen = array[i];
+      usageMap.set(chosen, (usageMap.get(chosen) || 0) + 1);
+      return chosen;
     }
+    random -= weights[i];
+  }
+}
+
+
+// =====================
+// MAIN GENERATOR
+// =====================
 
 function generateCompliment() {
 
-  const mode = Math.floor(Math.random() * 5);
+  const mode = getWeightedMode();
   let compliment = "";
 
   if (mode === 0) {
     currentModeName = "Classic";
     compliment =
       "You have the " +
-      randomItem(traits) +
+      smartRandomItem(traits) +
       " of " +
-      randomItem(metaphors) +
+      smartRandomItem(metaphors) +
       ", " +
-      randomItem(endings);
+      smartRandomItem(endings);
   }
 
   else if (mode === 1) {
     currentModeName = "Poetic";
     compliment =
-      randomItem(poeticOpenings) + " " +
-      randomItem(poeticBodies) + ", " +
-      randomItem(poeticEndings);
+      smartRandomItem(poeticOpenings) + " " +
+      smartRandomItem(poeticBodies) + ", " +
+      smartRandomItem(poeticEndings);
   }
 
   else if (mode === 2) {
     currentModeName = "Punchy";
-    compliment = randomItem(punchyCompliments);
+    compliment = smartRandomItem(punchyCompliments);
   }
 
   else if (mode === 3) {
-    currentModeName = "Brutalist";
-    compliment = randomItem(brutalistCompliments);
+    currentModeName = "Minimal";
+    compliment = smartRandomItem(brutalistCompliments);
   }
 
   else {
     currentModeName = "Aspirational";
-    compliment = randomItem(aspirationalCompliments);
+    compliment = smartRandomItem(aspirationalCompliments);
   }
 
   document.getElementById("compliment").innerText = compliment;
   document.getElementById("modeDisplay").innerText = "Mode: " + currentModeName;
 }
-    function toggleMode() {
+
+
+// =====================
+// EASTER EGG TOGGLE
+// =====================
+
+function toggleMode() {
   modeVisible = !modeVisible;
   const display = document.getElementById("modeDisplay");
 
@@ -1121,7 +1177,7 @@ function generateCompliment() {
     display.style.opacity = "0";
   }
 }
-    
-  </script>
+
+</script>
 </body>
 </html>
